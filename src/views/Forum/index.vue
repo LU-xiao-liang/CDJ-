@@ -69,9 +69,28 @@ export default {
      box-sizing: border-box;
  }
 
+ /* 隐藏默认滚动条 */
  .left {
+     -ms-overflow-style: none;
+     /* IE and Edge */
+     scrollbar-width: none;
+     /* Firefox */
+ }
+
+ /* 设置滚动条样式 */
+ .left::-webkit-scrollbar {
+     display: none;
+ }
+
+ /* 设置滚动条宽度为0 */
+ .left {
+     -ms-overflow-style: none;
+     /* IE and Edge */
+     scrollbar-width: none;
+     /* Firefox */
      width: 20%;
-    }
+     overflow-y: auto;
+ }
 
  .center {
      width: 60%;
@@ -80,5 +99,5 @@ export default {
 
  .right {
      width: 20%;
- }
-</style>
+     overflow: auto;
+ }</style>

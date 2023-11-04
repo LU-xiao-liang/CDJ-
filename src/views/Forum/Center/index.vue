@@ -3,22 +3,18 @@
     <div class="content">
         <div class="carousel">
             <el-carousel :interval="5000" arrow="always">
-                <el-carousel-item v-for="item in 4" :key="item">
-                    <h3 style="text-align: center;">{{ item }}</h3>
+                <el-carousel-item v-for="item in imgarr" :key="item">
+                    <img style="width: 120%;height: 120%;object-fit: cover;" :src="item.url" alt="">
                 </el-carousel-item>
             </el-carousel>
         </div>
         <div class="main">
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="推荐" name="first">
-                    <div style="width: 100%;height: 400px;background-color: antiquewhite;">
-                        推荐
-                    </div>
+                    <Listing></Listing>
                 </el-tab-pane>
-                <el-tab-pane label="最新" name="second">
-                    <div style="width:100%;height: 400px; background-color: aquamarine;">
-                        最新
-                    </div>
+                <el-tab-pane label="最新" name="second">    
+                    <Listing></Listing>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -27,17 +23,36 @@
 
 <!-- 逻辑 -->
 <script >
+import Listing from "./Listing"
 export default {
     name: 'Center',
     data() {
         return {
-            activeName: 'second'
+            activeName: 'first',
+            imgarr:[
+                {
+                    url:require('@/assets/background/1661836284376_a3UDj.jpg')
+                },
+                {
+                    url:require('@/assets/background/1669078863206_pf7cN.png')
+                },
+                {
+                    url:require('@/assets/background/1679296774317_SHSQs.png')
+                },
+                {
+                    url:require('@/assets/background/1696772088258_cAHcx.jpg')
+                },
+            ]
+
         };
     },
     methods: {
         handleClick(tab, event) {
-            console.log(tab, event);
+            // console.log(tab.label);
         }
+    },
+    components:{
+        Listing
     }
 }
 </script>

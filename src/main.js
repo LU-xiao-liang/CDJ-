@@ -20,6 +20,9 @@ import {
   CarouselItem,
   Tabs,
   TabPane,
+  Skeleton,
+  SkeletonItem,
+  Divider,
 } from "element-ui"
 import './assets/css/style.css'
 Vue.config.productionTip = false
@@ -40,6 +43,9 @@ Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Tabs)
 Vue.use(TabPane)
+Vue.use(Skeleton)
+Vue.use(SkeletonItem)
+Vue.use(Divider)
 Vue.prototype.$message = Message;
 new Vue({
   render: h => h(App),

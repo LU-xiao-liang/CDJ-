@@ -13,6 +13,9 @@
             <el-button style="width: 90%;">编辑资料</el-button>
             <el-button style="width: 90%;">写帖子</el-button>
         </div>
+        <div class="radius frame">
+
+        </div>
     </div>
 </template>
 
@@ -35,12 +38,15 @@ export default {
     height: 100%;
 }
 
+/* 设置圆角边框与背景，不允许盒子溢出 外边距*/
 .radius{
     border-radius: 10px;
-}
-.user {
     overflow: hidden;
     background-color: #fff;
+    margin-bottom: 10px;
+}
+.user {
+
     padding: 10px;
 }
 
@@ -52,6 +58,12 @@ export default {
 .margin-top {
     margin: 0 auto;
     width: 80%;
+}
+
+.frame {
+    width: 100%;
+    height: 240px;
+    background-color: #fff;
 }
 
 .el-button{
