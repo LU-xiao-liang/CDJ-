@@ -5,16 +5,17 @@
             <img src="http://web.livewallpaper.giantapp.cn/livewallpaper/upload/wallpapers/0cb91fd1c3c545ccaf950c19f9923d59/617ef50c6215ff4107eb7561051abebd/1645602915215_vXVFc.png"
                 alt="">
         </div>
-        <div class="login">
-            <div class="login-title">
+        <div class="register">
+            <div class="register-title">
                 <p><em>CDJforum</em>注册</p>
             </div>
-            <div class="login-form">
-                <el-form :label-position="labelPosition"  status-icon  :rules="rules" ref="ruleForm"  class="demo-ruleForm" label-width="80px" :model="formLabelAlign">
+            <div class="register-form">
+                <el-form :label-position="labelPosition" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm"
+                    label-width="80px" :model="formLabelAlign">
                     <el-form-item label="姓名" prop="name">
-                        <el-input  v-model="formLabelAlign.name" autocomplete="off"></el-input>
+                        <el-input v-model="formLabelAlign.name" autocomplete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="学号" prop="studentNumder" >
+                    <el-form-item label="学号" prop="studentNumder">
                         <el-input v-model="formLabelAlign.studentNumder" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="pass">
@@ -26,7 +27,7 @@
                 </el-form>
                 <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
                     <el-form-item label="上传头像">
-                        <el-upload class="avatar-uploader" :action="actionUrl"  :show-file-list="false"
+                        <el-upload class="avatar-uploader" :action="actionUrl" :show-file-list="false"
                             :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -43,8 +44,8 @@
                     </el-form-item>
                 </el-form>
             </div>
-            <el-button style="width: 30%;height: 50px;margin: 0 auto;" type="primary">注册</el-button>
-            <el-link style="margin-left: auto;" :underline="false">已有账号, 点击登录...</el-link>
+            <el-button style="width: 30%;height: 50px;margin: 0 auto;" type="primary" @click="register">注册</el-button>
+            <el-link style="margin-left: auto;" @click="gologin" :underline="false">已有账号,点击登录...</el-link>
         </div>
 
     </div>
@@ -64,13 +65,14 @@ export default {
             }
         }
         // 校验是否输入学号，且输入的学号是否正确
-        const validateStudentNumder=(rule,value,callback)=>{
-            const error =""
-            if(value===''){
+        const validateStudentNumder = (rule, value, callback) => {
+            const error = ""
+            if (value === '') {
                 callback(new Error('请输入学号'))
-            }else if(value.length !== 9){
+            } else if (value.length !== 9 || !+value) {
+                console.log(+value)
                 callback(new Error('您的学号好像不正确，请仔细检查'))
-            }else{
+            } else {
                 callback()
             }
         }
@@ -104,15 +106,16 @@ export default {
                 pass: '',
                 checkPass: '',
                 gender: "",  //性别
-                textarea: "" //个人简介
+                textarea: "", //个人简介
+                imagefile: '',
             },
-            imageUrl: '',   // 预览图片内容
+            imageUrl: '',
             rules: {
                 name: [
-                    { validator: validateName, trigger: 'blur'  }
+                    { validator: validateName, trigger: 'blur' }
                 ],
                 studentNumder: [
-                    { validator: validateStudentNumder, trigger: 'blur'  }
+                    { validator: validateStudentNumder, trigger: 'blur' }
                 ],
                 pass: [
                     { validator: validatePass, trigger: 'blur' }
@@ -122,6 +125,12 @@ export default {
                 ],
             }
         };
+    },
+    computed: {
+        // 验证表单是否填写完成
+        checkForm() {
+            return !(this.formLabelAlign.name === '' || this.formLabelAlign.studentNumder === '' || this.formLabelAlign.pass === '' || this.formLabelAlign.checkPass === '')
+        },
     },
     methods: {
         handleAvatarSuccess(res, file) {
@@ -142,6 +151,7 @@ export default {
                 this.$message.error('上传头像图片大小不能超过 2MB!');
                 return
             }
+            this.formLabelAlign.imagefile = file
             const reader = new FileReader();
             reader.readAsDataURL(file); // 把图片读成一个dataurl ,还有很多的读取方法，读取成不同内容
             reader.onload = (e) => {
@@ -149,6 +159,32 @@ export default {
             }
             return isJPG && isLt2M;
         },
+        register() {
+            if (this.checkForm) {
+                console.log("OK", this.formData())
+            } else {
+                console.log("NO")
+            }
+        },
+        // 整理表单数据
+        formData() {
+            if (this.checkForm) {
+                return {
+                    name: this.formLabelAlign.name,
+                    studentNumder: this.formLabelAlign.studentNumder,
+                    pass: this.formLabelAlign.pass,
+                    gender: this.formLabelAlign.gender,
+                    textarea: this.formLabelAlign.textarea,
+                    imagefile: this.formLabelAlign.imagefile,
+                }
+            } else {
+                return ''
+            }
+        },
+        // 跳转到登录页面
+        gologin(){
+            this.$router.push({ path: '/login' })
+        }
     }
 }
 </script>
@@ -172,9 +208,9 @@ export default {
     opacity: 0.8;
 }
 
-.login {
+.register {
     width: 90vh;
-    height: 100vh;
+    height: 90vh;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 20px;
     position: absolute;
@@ -186,7 +222,7 @@ export default {
     overflow: hidden;
 }
 
-.login-title {
+.register-title {
     width: 100%;
     height: 20%;
     display: flex;
@@ -195,7 +231,7 @@ export default {
     overflow: hidden;
 }
 
-.login-title p {
+.register-title p {
     font-size: 7vh;
     -webkit-text-stroke: 1px #fff;
     font-weight: 700;
@@ -209,7 +245,7 @@ export default {
 }
 
 
-.login-form {
+.register-form {
     margin: 0 auto;
     width: 90%;
     height: 400px;

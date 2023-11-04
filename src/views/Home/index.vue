@@ -15,7 +15,7 @@
                     <p>在这里你还可以找到志同道合的人，一起学习，一起娱乐。</p>
                 </div>
                 <div class="enter">
-                    <el-button  type="primary" round @click="">进入论坛</el-button>
+                    <el-button  type="primary" round @click="goForum">进入论坛</el-button>
                     <el-button  round>点击注册</el-button>
                 </div>
             </div>
@@ -31,6 +31,11 @@ export default {
     name: 'Home',
     components:{
         BackGround
+    },
+    methods:{
+        goForum(){
+           this.$router.push('/forum')
+        }
     }
 }
 </script>
@@ -41,6 +46,7 @@ export default {
     width: 100%;
     height: calc(100% - 60px);
     position: relative;
+    overflow: hidden;
 }
 
 .main .center {

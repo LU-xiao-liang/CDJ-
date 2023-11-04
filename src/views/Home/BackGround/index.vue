@@ -2,13 +2,13 @@
 <template>
     <div class="background">
         <img style="--i:0"
-            src="http://web.livewallpaper.giantapp.cn/livewallpaper/upload/wallpapers/c8458850059b491abd6c9cee33f9ba0e/fc8e6465644137ab095d83ff68f2c4fd/1669078863206_pf7cN.png">
+            src="@/assets/background/1669078863206_pf7cN.png">
         <img style="--i:1"
-            src="http://web.livewallpaper.giantapp.cn/livewallpaper/upload/wallpapers/07700c0093384780a529c6774cd28b97/233d13796522b06205e0eb5f676091d7/1696772088258_cAHcx.jpg">
+            src="@/assets/background/1696772088258_cAHcx.jpg">
         <img style="--i:2"
-            src="http://web.livewallpaper.giantapp.cn/livewallpaper/upload/wallpapers/8eda32dea0704bce9e978548cb09b565/2cc84e26641e789c06008daf142889ce/1679296774317_SHSQs.png">
+            src="@/assets/background/1679296774317_SHSQs.png">
         <img style="--i:3"
-            src="http://web.livewallpaper.giantapp.cn/livewallpaper/upload/wallpapers/1dc25f4138e84c599baf835352e4b6ee/15af3e5d63b76b280021740b70e16e96/1661836284376_a3UDj.jpg">
+            src="@/assets/background/1661836284376_a3UDj.jpg">
     </div>
 </template>
 

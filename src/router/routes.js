@@ -14,7 +14,7 @@ export default [
         component: () => import('../views/Login'),
         meta: {
             title: '登录',
-            isHeader: false,
+            isHeader: true,
         }
     },
     {
@@ -27,6 +27,11 @@ export default [
     },
     {
         // 论坛主页
-        path: '/forum'
+        path: '/forum',
+        component: () => import('../views/Forum'),
+        meta: {
+            title: '论坛',
+            isHeader: true,
+        }
     }
 ]

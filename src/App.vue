@@ -30,7 +30,6 @@ body {
   padding: 0;
   height: 100%;
   font-family: Arial, sans-serif;
-
 }
 
 #app {
@@ -40,7 +39,6 @@ body {
    right: 0;
    bottom: 0;
    zoom: 100%;
-   overflow: hidden;
    /* transform: translateY(50%); */
 }
 </style>
