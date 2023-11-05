@@ -53,6 +53,8 @@
 
 <!-- 逻辑 -->
 <script >
+import { reqtRegister} from "@/api";
+
 export default {
     name: 'Register',
     data() {
@@ -107,7 +109,7 @@ export default {
                 checkPass: '',
                 gender: "",  //性别
                 textarea: "", //个人简介
-                imagefile: '',
+                image: '',
             },
             imageUrl: '',
             rules: {
@@ -138,11 +140,9 @@ export default {
             // this.imageUrl = URL.createObjectURL(file.raw);
             // console.log(this.imageUrl)
         },
-        beforeAvatarUpload(file) {
-            // this.imageUrl = URL.createObjectURL(file.raw);
+        async beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg';
             const isLt2M = file.size / 1024 / 1024 < 2;
-
             if (!isJPG) {
                 this.$message.error('上传头像图片只能是 JPG 格式!');
                 return
@@ -151,38 +151,43 @@ export default {
                 this.$message.error('上传头像图片大小不能超过 2MB!');
                 return
             }
-            this.formLabelAlign.imagefile = file
-            const reader = new FileReader();
-            reader.readAsDataURL(file); // 把图片读成一个dataurl ,还有很多的读取方法，读取成不同内容
-            reader.onload = (e) => {
-                this.imageUrl = e.target.result;
-            }
+            this.imageUrl = await this.readAsDataURL(file)  //读成dataURL用于展示
+            this.formLabelAlign.image = this.imageUrl
             return isJPG && isLt2M;
         },
-        register() {
+        // 把图片读成一个dataurl ,还有很多的读取方法，读取成不同内容
+        readAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => {
+                    resolve(e.target.result);
+                }
+            })
+        },
+        // 注册按钮事件
+        async register() {
+           
             if (this.checkForm) {
-                console.log("OK", this.formData())
+                const result = await reqtRegister(this.formData())
+                console.log(result)
             } else {
                 console.log("NO")
             }
         },
         // 整理表单数据
         formData() {
-            if (this.checkForm) {
                 return {
                     name: this.formLabelAlign.name,
                     studentNumder: this.formLabelAlign.studentNumder,
                     pass: this.formLabelAlign.pass,
                     gender: this.formLabelAlign.gender,
                     textarea: this.formLabelAlign.textarea,
-                    imagefile: this.formLabelAlign.imagefile,
+                    image: this.formLabelAlign.image,
                 }
-            } else {
-                return ''
-            }
         },
         // 跳转到登录页面
-        gologin(){
+        gologin() {
             this.$router.push({ path: '/login' })
         }
     }
