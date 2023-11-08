@@ -28,7 +28,7 @@
                 <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
                     <el-form-item label="上传头像">
                         <el-upload class="avatar-uploader" :action="actionUrl" :show-file-list="false"
-                            :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                            :before-upload="beforeAvatarUpload">
                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
@@ -53,7 +53,7 @@
 
 <!-- 逻辑 -->
 <script >
-import { reqtRegister} from "@/api";
+import { reqtRegister } from "@/api";
 
 export default {
     name: 'Register',
@@ -135,11 +135,6 @@ export default {
         },
     },
     methods: {
-        handleAvatarSuccess(res, file) {
-            console.log(res, file)
-            // this.imageUrl = URL.createObjectURL(file.raw);
-            // console.log(this.imageUrl)
-        },
         async beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg';
             const isLt2M = file.size / 1024 / 1024 < 2;
@@ -167,8 +162,8 @@ export default {
         },
         // 注册按钮事件
         async register() {
-           
             if (this.checkForm) {
+                // 发送请求
                 const result = await reqtRegister(this.formData())
                 console.log(result)
             } else {
@@ -177,14 +172,14 @@ export default {
         },
         // 整理表单数据
         formData() {
-                return {
-                    name: this.formLabelAlign.name,
-                    studentNumder: this.formLabelAlign.studentNumder,
-                    pass: this.formLabelAlign.pass,
-                    gender: this.formLabelAlign.gender,
-                    textarea: this.formLabelAlign.textarea,
-                    image: this.formLabelAlign.image,
-                }
+            return {
+                name: this.formLabelAlign.name,
+                studentNumder: this.formLabelAlign.studentNumder,
+                pass: this.formLabelAlign.pass,
+                gender: this.formLabelAlign.gender,
+                textarea: this.formLabelAlign.textarea,
+                image: this.formLabelAlign.image,
+            }
         },
         // 跳转到登录页面
         gologin() {
