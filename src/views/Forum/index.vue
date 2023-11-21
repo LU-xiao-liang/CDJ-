@@ -7,7 +7,7 @@
             </div>
 
             <div class="column center">
-                <Center></Center>
+                <router-view></router-view>
             </div>
 
             <div class="column right">

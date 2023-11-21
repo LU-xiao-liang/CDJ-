@@ -3,7 +3,7 @@
     <div class="content">
         <div class="carousel">
             <el-carousel :interval="5000" arrow="always">
-                <el-carousel-item v-for="item in imgarr" :key="item">
+                <el-carousel-item v-for="item in imgarr">
                     <img style="width: 120%;height: 120%;object-fit: cover;" :src="item.url" alt="">
                 </el-carousel-item>
             </el-carousel>
@@ -11,12 +11,11 @@
         <div class="main">
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="推荐" name="first">
-                    <Listing></Listing>
                 </el-tab-pane>
-                <el-tab-pane label="最新" name="second">    
-                    <Listing></Listing>
+                <el-tab-pane label="最新" name="second">
                 </el-tab-pane>
             </el-tabs>
+            <Listing></Listing>
         </div>
     </div>
 </template>
@@ -29,18 +28,18 @@ export default {
     data() {
         return {
             activeName: 'first',
-            imgarr:[
+            imgarr: [
                 {
-                    url:require('@/assets/background/1661836284376_a3UDj.jpg')
+                    url: require('@/assets/background/1661836284376_a3UDj.jpg')
                 },
                 {
-                    url:require('@/assets/background/1669078863206_pf7cN.png')
+                    url: require('@/assets/background/1669078863206_pf7cN.png')
                 },
                 {
-                    url:require('@/assets/background/1679296774317_SHSQs.png')
+                    url: require('@/assets/background/1679296774317_SHSQs.png')
                 },
                 {
-                    url:require('@/assets/background/1696772088258_cAHcx.jpg')
+                    url: require('@/assets/background/1696772088258_cAHcx.jpg')
                 },
             ]
 
@@ -51,7 +50,7 @@ export default {
             // console.log(tab.label);
         }
     },
-    components:{
+    components: {
         Listing
     }
 }
@@ -68,7 +67,9 @@ export default {
     --width: calc(100% - 20px);
     /* padding: 10px; */
 }
-
+.content:hover{
+    box-shadow: 0 0 10px #ccc;
+}
 .carousel {
     width: var(--width);
     height: 300px;

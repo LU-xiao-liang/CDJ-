@@ -13,13 +13,13 @@
                 <p>CDJforum登录</p>
             </div>
             <div class="login">
-                <el-form :label-position="labelPosition" label-width="50px" :model="formLabelAlign">
-                    <el-form-item label="用户">
-                        <el-input v-model="formLabelAlign.name"></el-input>
+                <el-form :label-position="labelPosition" label-width="50px" :model="userAccount">
+                    <el-form-item label="学号">
+                        <el-input v-model="userAccount.studentNumder" placeholder="请输入学号" ></el-input>
                     </el-form-item>
                     <el-form-item label="密码">
-                        <el-input type="password" v-model="formLabelAlign.region"></el-input>
-                        <el-checkbox v-model="formLabelAlign.checked">记住密码</el-checkbox>
+                        <el-input type="password" v-model="userAccount.pass" show-password ></el-input>
+                        <el-checkbox v-model="userAccount.checked">记住密码</el-checkbox>
                     </el-form-item>
                     <el-form-item>
                         <el-button style="width: 100%;" type="primary" @click="handleLogin">登录</el-button>
@@ -38,16 +38,56 @@ export default {
     data() {
         return {
             labelPosition: 'right',
-            formLabelAlign: {
-                name: '',
-                region: '',
+            userAccount: {
+                studentNumder: '',
+                pass: '',
                 checked:false
             }
         };
     },
     methods:{
-        handleLogin(){
-            console.log(this.formLabelAlign)
+        async handleLogin(){
+            // 验证学号是否输入
+            if(!this.validatorForm()) return
+
+            const data = {
+                studentNumder: this.userAccount.studentNumder,
+                pass: this.userAccount.pass
+            }
+            const result = await this.$store.dispatch('reqLogin',data)
+            if(this.$store.state.user.name){
+                this.$router.push('/forum')
+                this.setLocalStorage()
+            }else {
+                console.log(result)
+                this.$message.error(result)
+            }
+        },
+        // 判断用户是否记住密码，如果记住就把账号信息存储在本地
+        setLocalStorage(){
+            if(this.userAccount.checked){
+                localStorage.setItem('userAccount',JSON.stringify(this.userAccount))
+            }else{
+                localStorage.removeItem('userAccount')
+            }
+        },
+        // 验证表单
+        validatorForm(){
+            if(!this.userAccount.studentNumder){
+                this.$message.error('学号不能为空')
+                return false
+            }else if(!this.userAccount.pass){
+                this.$message.error('密码不能为空')
+                return false
+            }else {
+                return true
+            }
+        }
+    },
+    mounted() {
+        // 获取用户缓存
+        if(localStorage.getItem('userAccount')){
+            this.userAccount = JSON.parse(localStorage.getItem('userAccount'))
         }
     }
 }

@@ -1,99 +1,87 @@
 <!-- 结构 -->
 <template>
-
-<div class="listing">
-    <el-skeleton  animated :rows="4" />
-    <div class="item" v-for="(v,i) in arr" :key="i">
-        <div class="content">
-            <div class="title">{{ v.title }}</div>
-            <div class="text">
-                <span>{{v.text}}</span>
-            </div>
-            <div class="footer">
-                <span>{{v.name}}</span>
-                <span style="margin-left: 80%;" >点赞</span>
-                <el-divider direction="vertical"></el-divider>
-                <span>评论</span>
+    <div class="listing" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
+        <el-skeleton animated :rows="4" v-if="!contentList.length" />
+        <div class="item" v-for="(v, i) in contentList" :key="i" @click="goContent(i)">
+            <div class="content">
+                <div class="title">{{ v.title }}</div>
+                <div class="text">
+                    <span>{{ v.simple }}</span>
+                </div>
+                <div class="footer">
+                    <span>{{ v.userID }}</span>
+                    <span style="margin-left: 70%;">点赞</span>
+                    <el-divider direction="vertical"></el-divider>
+                    <span>评论</span>
+                </div>
             </div>
         </div>
+        <p v-if="loading">加载中...</p>
+        <p v-if="noMore">没有更多了</p>
     </div>
-</div>
-
 </template>
 
 <!-- 逻辑 -->
 <script >
 export default {
-    name:'Listing',
-    props:{
-        label:String,
-    },
-    data(){
+    name: 'Listing',
+    data() {
         return {
-            arr:[
-            {
-                name:"小亮",
-                title:"标题:xxxxx",
-                text:"内容：xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            },
-            {
-                name:"小亮",
-                title:"标题:xxxxx",
-                text:"内容：xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            },
-            {
-                name:"小亮",
-                title:"标题:xxxxx",
-                text:"内容：xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            }
-        ],
+            loading: false,
+            noMore: false,
         }
     },
-    mounted(){
-        const arr = [
-            {
-                name:"小亮",
-                title:"标题:xxxxx",
-                text:"内容：xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            },
-            {
-                name:"小亮",
-                title:"标题:xxxxx",
-                text:"内容：xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            },
-            {
-                name:"小亮",
-                title:"标题:xxxxx",
-                text:"内容：xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            }
-        ]
-        // setTimeout(()=>{
-        //     this.arr = arr
-        // },2000) 
+    computed: {
+        contentList() {
+            return this.$store.state.contentList
+        },
+        disabled() {
+            return this.loading || this.noMore   //都为真时，禁用
+        }
     },
-    beforeDestroy(){
-        
-    }
+    methods: {
+        // 跳转到文章详情页
+        goContent(id) {
+            this.$router.push(`/forum/essayshow?id=${id}`)
+        },
+        async load() {
+            console.log('触发')
+            if (this.contentList.length) {   // 判断是否有数据
+                    this.loading=true
+                    const length = await this.$store.dispatch('reqContentList', this.contentList.length)
+                    if(length){
+                        this.loading=false
+                    }else {
+                        this.loading = false
+                        this.noMore=true
+                    }
+            } else {  // 没有数据时，加载第一页
+                await this.$store.dispatch('reqContentList', 1)
+            }
+        }
+    },
 }
 </script>
 
 <!-- 样式 -->
 <style scoped>
-.listing{
+.listing {
     width: 100%;
     height: auto;
 }
-.listing .item{
+
+.listing .item {
     width: 100%;
     height: 128px;
     margin: 10px auto;
     overflow: hidden;
 }
 
-.listing .item :hover{
+.listing .item :hover {
     background-color: #eae9e9;
 }
-.content{
+
+.content {
     width: 100%;
     height: 100%;
     /* margin: 1%; */
@@ -102,8 +90,10 @@ export default {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    cursor: pointer;
 }
-.content .title{
+
+.content .title {
     width: 100%;
     height: 20px;
     font-size: 16px;
@@ -112,7 +102,7 @@ export default {
     margin: 10px 0;
 }
 
-.content .text{
+.content .text {
     width: 100%;
     flex-grow: 1;
     font-size: 14px;
@@ -121,7 +111,7 @@ export default {
     margin-bottom: 10px;
 }
 
-.content .footer{
+.content .footer {
     width: 100%;
     height: 20px;
     font-size: 14px;

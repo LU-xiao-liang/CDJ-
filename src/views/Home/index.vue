@@ -16,7 +16,7 @@
                 </div>
                 <div class="enter">
                     <el-button  type="primary" round @click="goForum">进入论坛</el-button>
-                    <el-button  round>点击注册</el-button>
+                    <el-button  round @click="$router.push('/register')">点击注册</el-button>
                 </div>
             </div>
         </div>
@@ -34,7 +34,12 @@ export default {
     },
     methods:{
         goForum(){
-           this.$router.push('/forum')
+            if(this.$store.state.user.ID){
+                this.$router.push('/forum')
+            }
+            else{
+                this.$message.error('请先登录或注册')
+            }
         }
     }
 }

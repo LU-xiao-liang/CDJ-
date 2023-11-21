@@ -29,9 +29,31 @@ export default [
         // 论坛主页
         path: '/forum',
         component: () => import('../views/Forum'),
-        meta: {
-            title: '论坛',
-            isHeader: true,
-        }
+        children:[
+            {
+                path:'/',
+                component: () => import('../views/Forum/Center'),
+                meta:{
+                    title: '论坛',
+                    isHeader: true,
+                }
+            },
+            {
+                path:'create',
+                component: () => import('../views/Forum/Create'),
+                meta:{
+                    title: '发帖',
+                    isHeader: true,
+                }
+            },
+            {
+                path:'essayshow',
+                component: () => import('../views/Forum/EssayShow'),
+                meta:{
+                    title: '内容',
+                    isHeader: true,
+                }
+            }
+        ]
     }
 ]

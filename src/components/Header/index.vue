@@ -5,8 +5,8 @@
     <div class="logo">
         <img src="../../assets/logo.jpg" @click="goHome"  alt="">
     </div>
-    <el-button class="signIn" round @click="goRegister"> 注册</el-button>
-    <el-button class="login" type="primary" round @click="goLogin">登录</el-button>
+    <el-button  class="signIn" round @click="goRegister">注册</el-button>
+    <el-button  class="login" type="primary" round @click="goLogin">登录</el-button>
 </div>
 
 </template>

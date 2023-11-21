@@ -52,7 +52,6 @@ export default {
     bottom: -2%;
     /* transform: translate(-50%,-50%); */
 }
-
 .background img:nth-child(3) {
     width: 350px;
     height: 350px;

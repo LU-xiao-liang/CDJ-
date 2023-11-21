@@ -2,7 +2,7 @@
 <template>
     <div class="content">
         <div class="back">
-            <img src="http://web.livewallpaper.giantapp.cn/livewallpaper/upload/wallpapers/0cb91fd1c3c545ccaf950c19f9923d59/617ef50c6215ff4107eb7561051abebd/1645602915215_vXVFc.png"
+            <img src="@/assets/background/1645602915215_vXVFc.png"
                 alt="">
         </div>
         <div class="register">
@@ -147,13 +147,14 @@ export default {
                 return
             }
             this.imageUrl = await this.readAsDataURL(file)  //读成dataURL用于展示
+
             this.formLabelAlign.image = this.imageUrl
             return isJPG && isLt2M;
         },
         // 把图片读成一个dataurl ,还有很多的读取方法，读取成不同内容
         readAsDataURL(file) {
             return new Promise((resolve, reject) => {
-                const reader = new FileReader();
+                const reader = new FileReader();  //文本读取器
                 reader.readAsDataURL(file);
                 reader.onload = (e) => {
                     resolve(e.target.result);
@@ -165,9 +166,15 @@ export default {
             if (this.checkForm) {
                 // 发送请求
                 const result = await reqtRegister(this.formData())
-                console.log(result)
+                if (result.code == 200) {
+                    this.$message({
+                        message: `恭喜你，${result.message}`,
+                        type: 'success'
+                    });
+                }
+
             } else {
-                console.log("NO")
+                this.$message.error('内容有错误或未填写完整');
             }
         },
         // 整理表单数据

@@ -23,8 +23,13 @@ import {
   Skeleton,
   SkeletonItem,
   Divider,
+  PageHeader,
+  Dialog,
+  InfiniteScroll,
 } from "element-ui"
+import store from './store'
 import './assets/css/style.css'
+
 Vue.config.productionTip = false
 Vue.use(Button)
 Vue.use(Input)
@@ -46,8 +51,13 @@ Vue.use(TabPane)
 Vue.use(Skeleton)
 Vue.use(SkeletonItem)
 Vue.use(Divider)
+Vue.use(PageHeader)
+Vue.use(Dialog)
+Vue.use(InfiniteScroll)
 Vue.prototype.$message = Message;
+
 new Vue({
   render: h => h(App),
   router,
+  store,
 }).$mount('#app')

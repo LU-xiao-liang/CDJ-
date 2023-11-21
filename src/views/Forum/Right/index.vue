@@ -6,8 +6,8 @@
                 <span>热门话题</span>
             </div>
             <div class="list">
-                <div class="item" v-for="i in num">
-                    <el-link :underline="false">{{ i }}: lorem ipsum dolor sit amet consectetur adipisicing elit.</el-link>
+                <div class="item" v-for="(v,i) in contentArr">
+                    <el-link @click="goessayshow(i)" :underline="false">{{ i+1 }}: {{ v.title }}</el-link>
                 </div>
             </div>
             <div class="footer">
@@ -16,7 +16,7 @@
         </div>
         <div class="piece frame">
             <el-carousel trigger="click" height="150px">
-                <el-carousel-item v-for="item in imgarr" :key="item">
+                <el-carousel-item v-for="item in imgarr" >
                     <img style="height: 100%;width: 100%; object-fit: cover;" :src="item.url" >
                 </el-carousel-item>
             </el-carousel>
@@ -34,21 +34,35 @@ export default {
             num: 5,
             imgarr: [
                 {
-                    url:"https://public.giantapp.cn/upload/931f708fe11748449b5ceda777321646/wallpapers/def1da45652c9f4f07435e683b927b9f/1697367477768_aE4si.jpeg"
+                    url:require("@/assets/background/1671101693339_OiqSd.jpg")
                 },
                 {
-                    url:"http://web.livewallpaper.giantapp.cn/livewallpaper/upload/wallpapers/713718036e2046a7a5ba0870c8ba085b/755bdf59647ee5b100014a2b2873715f/1671101693339_OiqSd.jpg"
+                    url:require("@/assets/background/1697367477768_aE4si.avif")
                 },
                 {
-                    url:"https://ts1.cn.mm.bing.net/th/id/R-C.828d8ebf1a293ac1c07bc876db7fbcaf?rik=futTywE335eA9Q&riu=http%3a%2f%2fpic.bizhi360.com%2fbbpic%2f96%2f9696_10.jpg&ehk=fC8r1n1Nq3uqlDSaOPbgrzMsc6nUKCw%2f4gkEaZOlA2Q%3d&risl=&pid=ImgRaw&r=0"
+                    url:require("@/assets/background/R-C.jpg")
                 }
             ]
+        }
+    },
+    computed:{
+        contentArr(){
+            // return this.$store.state.contentList.slice(0,11)
+            if(this.is){
+                return this.$store.state.contentList.slice(0,10) || []
+            }else {
+                return this.$store.state.contentList.slice(0,5) || []
+            }
         }
     },
     methods: {
         isNum() {
             this.num = this.is ? 5 : 10
             this.is = !this.is
+            console.log(this.contentArr);
+        },
+        goessayshow(id){
+            this.$router.push(`/forum/essayshow?id=${id}`)
         }
     }
 }
@@ -67,7 +81,9 @@ export default {
     border-radius: 10px;
     overflow: hidden;
 }
-
+.piece:hover{
+    box-shadow: 0 0 10px #ccc;
+}
 .the-list {
     background-color: #fff;
     padding: 20px;
